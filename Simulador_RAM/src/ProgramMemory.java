@@ -40,12 +40,12 @@ public class ProgramMemory{
 					String etiqueta = division[0].substring(0, division[0].length()-1);
 					String instruccion = division[1];
 					String operando = division[2];
-					nuevainstruccion = new Instruccion(instruccion, operando, etiqueta);
+					nuevainstruccion = new Instruccion(instruccion.toLowerCase(), operando.toLowerCase(), etiqueta.toLowerCase());
 				}
 				else{
 					String instruccion = division[0];
 					String operando = division[1];
-					nuevainstruccion = new Instruccion(instruccion, operando);
+					nuevainstruccion = new Instruccion(instruccion.toLowerCase(), operando.toLowerCase());
 				}
 				registros.add(nuevainstruccion);
 			}
@@ -57,7 +57,39 @@ public class ProgramMemory{
 		catch(IOException e){
 			System.out.println("Error en el fichero: error de entrada/salida " + e);
 		}
+		catch(IllegalArgumentException e){
+			System.out.println("Error en el fichero: error de entrada/salida " + e);
+		}
 	}
 	
-	
+	public Instruccion getInstrucccion (int i){
+		return registros.get(i);
+	}
+	public int setIp(int i){
+		int temp = ip;
+		ip = i;
+		return temp;
+	}
+	public int getIp(){
+		return ip;
+	}
+	public Instruccion nextInstruccion(){
+		int temp = ip;
+		ip++;
+		return registros.get(temp);
+	}
+	/**
+	 * Este metodo ejecuta las distintas operaciones de salto.
+	 * @param etiqueta
+	 * @return
+	 */
+	public boolean jumto(String etiqueta){
+		for(int i =0; i < registros.size(); i++){
+			if(registros.get(i).getEtiqueta() == etiqueta.toLowerCase()){
+				ip = i;
+				return true;
+			}
+		}
+		return false;
+	}
 }
