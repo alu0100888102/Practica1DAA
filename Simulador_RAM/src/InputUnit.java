@@ -14,7 +14,7 @@ public class InputUnit {
 	int index;
 	
 	public InputUnit(){
-		cinta = null;
+		cinta = new ArrayList<Integer>();
 		index =0;
 	}
 	/**
@@ -23,6 +23,7 @@ public class InputUnit {
 	 */
 	public InputUnit (File entrada){
 		index =0;
+		cinta = new ArrayList<Integer>();
 		try{
 			Scanner scanner = new Scanner(entrada);
 			while(scanner.hasNextInt()){
@@ -34,7 +35,9 @@ public class InputUnit {
 			System.out.println("Error en el fichero: no se encuentra " + e);
 		}
 	}
-	
+	public ArrayList<Integer> getCinta(){
+		return cinta;
+	}
 	public int getIndex(){
 		return index;
 	}
@@ -43,7 +46,6 @@ public class InputUnit {
 		index = i;
 		return temp;
 	}
-	
 	
 	public int getNext(){
 		return cinta.get(index);

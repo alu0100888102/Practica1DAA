@@ -74,6 +74,8 @@ public class ProgramMemory{
 		return ip;
 	}
 	public Instruccion nextInstruccion(){
+		if(ip >= registros.size())
+			return null;
 		int temp = ip;
 		ip++;
 		return registros.get(temp);
