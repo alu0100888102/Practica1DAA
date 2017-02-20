@@ -59,28 +59,45 @@ public class Instruccion {
 	}
 	
 	private boolean test(){
-		if(instruccion == "load")
-			return true;
-		if(instruccion == "store")
-			return true;
-		if(instruccion == "add")
-			return true;
-		if(instruccion == "sub")
-			return true;
-		if(instruccion == "mul")
-			return true;
-		if(instruccion == "div")
-			return true;
-		if(instruccion == "read")
-			return true;
+		if(instruccion == "load"){
+
+		}
+		if(instruccion == "store"){
+			if(!(operando.matches("^(=\\d+|*\\d+|\\d+)$")))
+				return true;
+		}
+		if(instruccion == "add"){
+			if(!(operando.matches("^(=\\d+|*\\d+|\\d+)$")))
+				return true;
+		}
+		if(instruccion == "sub"){
+			if(!(operando.matches("^(=\\d+|*\\d+|\\d+)$")))
+				return true;
+		}
+		if(instruccion == "mul"){
+			if(!(operando.matches("^(=\\d+|*\\d+|\\d+)$")))
+				return true;
+		}
+		if(instruccion == "div"){
+			if(!(operando.matches("^(=\\d+|*\\d+|\\d+)$")))
+				return true;
+		}
+		if(instruccion == "read"){
+			if(!(operando.matches("^(=\\d+|*\\d+|\\d+)$")))
+				return true;
+		}
 		if(instruccion == "write")
-			return true;
+			if(!(operando.matches("^(=\\d+|*\\d+|\\d+)$")))
+				return true;
 		if(instruccion == "jump")
-			return true;
+			if(operando.matches("^(\\D\\w+)$"))
+					return true;
 		if(instruccion == "jzero")
-			return true;
+			if(operando.matches("^(\\D\\w+)$"))
+				return true;
 		if(instruccion == "jgtz")
-			return true;
+			if(operando.matches("^(\\D\\w+)$"))
+				return true;
 		if(instruccion == "halt")
 			return true;
 		return false;

@@ -42,10 +42,14 @@ public class ProgramMemory{
 					String operando = division[2];
 					nuevainstruccion = new Instruccion(instruccion.toLowerCase(), operando.toLowerCase(), etiqueta.toLowerCase());
 				}
-				else{
+				else if(division.length == 2){
 					String instruccion = division[0];
 					String operando = division[1];
 					nuevainstruccion = new Instruccion(instruccion.toLowerCase(), operando.toLowerCase());
+				}
+				else{
+					String instruccion = division[0];
+					nuevainstruccion = new Instruccion(instruccion.toLowerCase());
 				}
 				registros.add(nuevainstruccion);
 			}

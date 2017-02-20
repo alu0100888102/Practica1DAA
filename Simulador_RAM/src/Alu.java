@@ -5,6 +5,7 @@
  * @version 1.0
  */
 import java.io.*;
+import static java.lang.System.*;
 
 public class Alu {
 	DataMemory memoriaDatos;
@@ -185,15 +186,58 @@ public class Alu {
 	 */
 	public void halt(){
 		cintaSalida.write();
-		System.exit(0);
+		exit(0);
 	}
 	
 	/**
 	 * El método run es el que se encarga de la ejecución del programa.
 	 */
-	public void run(){}
-	public void runDebug(){}
-	
+	public void run(int debug){
+		int actionCounter= 0;
+		Instruccion siguienteInstruccion = memoriaInstrucciones.nextInstruccion();
+		while(siguienteInstruccion != null){
+			actionCounter++;
+			if (siguienteInstruccion.getInstruccion() == "load")
+				this.load(siguienteInstruccion.getOperando());
+			if (siguienteInstruccion.getInstruccion() == "store")
+				this.store(siguienteInstruccion.getOperando());
+			if (siguienteInstruccion.getInstruccion() == "add")
+				this.add(siguienteInstruccion.getOperando());
+			if (siguienteInstruccion.getInstruccion() == "sub")
+				this.sub(siguienteInstruccion.getOperando());
+			if (siguienteInstruccion.getInstruccion() == "mul")
+				this.mul(siguienteInstruccion.getOperando());
+			if (siguienteInstruccion.getInstruccion() == "div")
+				this.div(siguienteInstruccion.getOperando());
+			if (siguienteInstruccion.getInstruccion() == "read")
+				this.read(siguienteInstruccion.getOperando());
+			if (siguienteInstruccion.getInstruccion() == "write")
+				this.write(siguienteInstruccion.getOperando());
+			if (siguienteInstruccion.getInstruccion() == "jump")
+				this.jump(siguienteInstruccion.getOperando());
+			if (siguienteInstruccion.getInstruccion() == "jzero")
+				this.jzero(siguienteInstruccion.getOperando());
+			if (siguienteInstruccion.getInstruccion() == "jgtz")
+				this.jgtz(siguienteInstruccion.getOperando());
+			if (siguienteInstruccion.getInstruccion() == "halt"){
+				out.println("El numero de acciones ejecutadas es: " +  actionCounter);
+				this.halt();
+			}
+			
+			if(debug == 1){
+				out.println("Instruccion numero " +  actionCounter);
+				out.println("IP = "+memoriaInstrucciones.getIp());
+				out.println("Memoria de programas:\n"+ memoriaInstrucciones);
+				out.println("Memoria de datos:\n"+ memoriaDatos);
+				out.println("Cinta de entrada:\n" + cintaEntrada);
+				out.println("Cinta de salida:\n" +  cintaSalida);
+			}
+			
+			siguienteInstruccion = memoriaInstrucciones.nextInstruccion();
+		}
+		out.println("El numero de acciones ejecutadas es: " +  actionCounter);
+		exit(0);
+	}
 	
 	//args: 0= programa, 1= entrada, 2= salida, 3= debug
 	public static void main(String args[]){
@@ -203,11 +247,7 @@ public class Alu {
 		int debugMode = Integer.parseUnsignedInt(args[3]);
 		
 		Alu maquinaRam = new Alu(ficheroPrograma, ficheroEntrada, ficheroSalida);
-		
-		if(debugMode == 1)
-			maquinaRam.runDebug();
-		else
-			maquinaRam.run();
+		maquinaRam.run(debugMode);
 	}
 
 } 
