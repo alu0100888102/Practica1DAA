@@ -10,9 +10,15 @@ import java.io.*;
 
 public class OutputUnit {
 	ArrayList<Integer> cinta;
+	File outputFile;
 
 	public OutputUnit(){
 		cinta = new ArrayList<Integer>();
+		outputFile = null;
+	}
+	public OutputUnit(File output){
+		cinta = new ArrayList<Integer>();
+		outputFile = output;
 	}
 	
 	public ArrayList<Integer> getCinta(){
@@ -23,9 +29,9 @@ public class OutputUnit {
 		cinta.add(data);
 	}
 	
-	public void write(File output){
+	public void write(){
 		try{
-			FileWriter writer = new FileWriter(output);
+			FileWriter writer = new FileWriter(outputFile);
 			for(int i =0; i < cinta.size(); i++){
 				writer.write(cinta.get(i)+"\n");
 			}

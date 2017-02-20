@@ -11,7 +11,6 @@ public class Alu {
 	ProgramMemory memoriaInstrucciones;
 	InputUnit cintaEntrada;
 	OutputUnit cintaSalida;
-	File outputFile;
 	
 	public Alu(){
 		memoriaDatos = new DataMemory();
@@ -19,6 +18,13 @@ public class Alu {
 		cintaEntrada = new InputUnit();
 		cintaSalida = new OutputUnit();
 	}
+	public Alu(File programa, File entrada, File salida){
+		memoriaDatos = new DataMemory();
+		memoriaInstrucciones = new ProgramMemory(programa);
+		cintaEntrada = new InputUnit(entrada);
+		cintaSalida = new OutputUnit(salida);
+	}
+	
 	public DataMemory getMemoriaDatos(){
 		return memoriaDatos;
 	}
@@ -178,7 +184,30 @@ public class Alu {
 	 * termina la ejecucion del programa
 	 */
 	public void halt(){
-		cintaSalida.write(outputFile);
+		cintaSalida.write();
 		System.exit(0);
 	}
+	
+	/**
+	 * El método run es el que se encarga de la ejecución del programa.
+	 */
+	public void run(){}
+	public void runDebug(){}
+	
+	
+	//args: 0= programa, 1= entrada, 2= salida, 3= debug
+	public static void main(String args[]){
+		File ficheroPrograma = new File(args[0]);
+		File ficheroEntrada = new File(args[1]);
+		File ficheroSalida = new File(args[2]);
+		int debugMode = Integer.parseUnsignedInt(args[3]);
+		
+		Alu maquinaRam = new Alu(ficheroPrograma, ficheroEntrada, ficheroSalida);
+		
+		if(debugMode == 1)
+			maquinaRam.runDebug();
+		else
+			maquinaRam.run();
+	}
+
 } 
