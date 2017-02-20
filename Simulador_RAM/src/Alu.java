@@ -137,6 +137,9 @@ public class Alu {
 	 * @param operando
 	 */
 	public void read(String operando){
+		//se añade "=" al principio para que la clase entienda que es directamente al directorio si no tiene *
+		if(!operando.startsWith("*"))
+			operando = "="+operando;
 		memoriaDatos.setData(operando, cintaEntrada.getNext());
 	}
 	/**
@@ -163,7 +166,7 @@ public class Alu {
 	 * @param operando
 	 */
 	public void jump(String operando){
-		memoriaInstrucciones.jumto(operando);
+		memoriaInstrucciones.jumpto(operando);
 	}
 	/**
 	 * Salta a la etiqueta pasada como operando si R0 == 0
@@ -171,7 +174,7 @@ public class Alu {
 	 */
 	public void jzero(String operando){
 		if(memoriaDatos.getAcc() == 0)
-			memoriaInstrucciones.jumto(operando);
+			memoriaInstrucciones.jumpto(operando);
 	}
 	/**
 	 * Salta a la etiqueta pasada como operando si R0 > 0
@@ -179,7 +182,7 @@ public class Alu {
 	 */
 	public void jgtz(String operando){
 		if(memoriaDatos.getAcc() > 0)
-			memoriaInstrucciones.jumto(operando);
+			memoriaInstrucciones.jumpto(operando);
 	}
 	/**
 	 * termina la ejecucion del programa
@@ -197,36 +200,36 @@ public class Alu {
 		Instruccion siguienteInstruccion = memoriaInstrucciones.nextInstruccion();
 		while(siguienteInstruccion != null){
 			actionCounter++;
-			if (siguienteInstruccion.getInstruccion() == "load")
+			if (siguienteInstruccion.getInstruccion().matches("load"))
 				this.load(siguienteInstruccion.getOperando());
-			if (siguienteInstruccion.getInstruccion() == "store")
+			if (siguienteInstruccion.getInstruccion().matches("store"))
 				this.store(siguienteInstruccion.getOperando());
-			if (siguienteInstruccion.getInstruccion() == "add")
+			if (siguienteInstruccion.getInstruccion().matches("add"))
 				this.add(siguienteInstruccion.getOperando());
-			if (siguienteInstruccion.getInstruccion() == "sub")
+			if (siguienteInstruccion.getInstruccion().matches("sub"))
 				this.sub(siguienteInstruccion.getOperando());
-			if (siguienteInstruccion.getInstruccion() == "mul")
+			if (siguienteInstruccion.getInstruccion().matches("mul"))
 				this.mul(siguienteInstruccion.getOperando());
-			if (siguienteInstruccion.getInstruccion() == "div")
+			if (siguienteInstruccion.getInstruccion().matches("div"))
 				this.div(siguienteInstruccion.getOperando());
-			if (siguienteInstruccion.getInstruccion() == "read")
+			if (siguienteInstruccion.getInstruccion().matches("read"))
 				this.read(siguienteInstruccion.getOperando());
-			if (siguienteInstruccion.getInstruccion() == "write")
+			if (siguienteInstruccion.getInstruccion().matches("write"))
 				this.write(siguienteInstruccion.getOperando());
-			if (siguienteInstruccion.getInstruccion() == "jump")
+			if (siguienteInstruccion.getInstruccion().matches("jump"))
 				this.jump(siguienteInstruccion.getOperando());
-			if (siguienteInstruccion.getInstruccion() == "jzero")
+			if (siguienteInstruccion.getInstruccion().matches("jzero"))
 				this.jzero(siguienteInstruccion.getOperando());
-			if (siguienteInstruccion.getInstruccion() == "jgtz")
+			if (siguienteInstruccion.getInstruccion().matches("jgtz"))
 				this.jgtz(siguienteInstruccion.getOperando());
-			if (siguienteInstruccion.getInstruccion() == "halt"){
+			if (siguienteInstruccion.getInstruccion().matches("halt")){
 				out.println("El numero de acciones ejecutadas es: " +  actionCounter);
 				this.halt();
 			}
 			
 			if(debug == 1){
 				out.println("Instruccion numero " +  actionCounter);
-				out.println("IP = "+memoriaInstrucciones.getIp());
+				out.println("IP = "+(memoriaInstrucciones.getIp()-1));
 				out.println("Memoria de programas:\n"+ memoriaInstrucciones);
 				out.println("Memoria de datos:\n"+ memoriaDatos);
 				out.println("Cinta de entrada:\n" + cintaEntrada);
@@ -241,10 +244,10 @@ public class Alu {
 	
 	//args: 0= programa, 1= entrada, 2= salida, 3= debug
 	public static void main(String args[]){
-		File ficheroPrograma = new File(args[0]);
-		File ficheroEntrada = new File(args[1]);
-		File ficheroSalida = new File(args[2]);
-		int debugMode = Integer.parseUnsignedInt(args[3]);
+		File ficheroPrograma = new File("programas/test1.ram");
+		File ficheroEntrada = new File("programas/input_tape.in");
+		File ficheroSalida = new File("programas/output_tape.out");
+		int debugMode = Integer.parseUnsignedInt("1");
 		
 		Alu maquinaRam = new Alu(ficheroPrograma, ficheroEntrada, ficheroSalida);
 		maquinaRam.run(debugMode);

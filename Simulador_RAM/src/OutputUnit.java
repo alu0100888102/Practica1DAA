@@ -39,9 +39,19 @@ public class OutputUnit {
 		}
 		catch(FileNotFoundException e){
 			System.out.println("Error en el fichero: no se encuentra " + e);
+			System.exit(1);
 		}
 		catch(IOException e){
 			System.out.println("Error en el fichero: error de entrada/salida " + e);
+			System.exit(1);
 		}
+	}
+	public String toString(){
+		String salida = new String();
+		for(int i = 0; i< cinta.size(); i++){
+			salida = salida+cinta.get(i)+ " ";
+		}
+		salida = salida + "\n";
+		return salida;
 	}
 }

@@ -36,70 +36,71 @@ public class Instruccion {
 	public String getEtiqueta(){
 		return etiqueta;
 	}
-	public String setEtiqueta(String e){
-		String temp = etiqueta;
+	public void setEtiqueta(String e){
 		etiqueta = e;
-		return temp;
 	}
 	public String getInstruccion(){
 		return instruccion;
 	}
-	public String setInstruccion(String i){
-		String temp = instruccion;
+	public void setInstruccion(String i){
 		instruccion = i;
-		return temp;
 	}
 	public String getOperando(){
 		return operando;
 	}
-	public String setOperando(String o){
-		String temp = operando;
+	public void setOperando(String o){
 		operando = o;
-		return temp;
 	}
 	
 	private boolean test(){
-		if(instruccion == "load"){
-
-		}
-		if(instruccion == "store"){
-			if(!(operando.matches("^(=\\d+|*\\d+|\\d+)$")))
+		if(instruccion.matches("load"))
+			if(!(operando.matches("^(= \\d + | * \\d + | \\d + )$")))
 				return true;
-		}
-		if(instruccion == "add"){
-			if(!(operando.matches("^(=\\d+|*\\d+|\\d+)$")))
+		if(instruccion.matches("store"))
+			if(!(operando.matches("^( * \\d + | \\d + )$")))
 				return true;
-		}
-		if(instruccion == "sub"){
-			if(!(operando.matches("^(=\\d+|*\\d+|\\d+)$")))
+		if(instruccion.matches("add"))
+			if(!(operando.matches("^(= \\d + | * \\d + | \\d + )$")))
 				return true;
-		}
-		if(instruccion == "mul"){
-			if(!(operando.matches("^(=\\d+|*\\d+|\\d+)$")))
+		if(instruccion.matches("sub"))
+			if(!(operando.matches("^(= \\d + | * \\d + | \\d + )$")))
 				return true;
-		}
-		if(instruccion == "div"){
-			if(!(operando.matches("^(=\\d+|*\\d+|\\d+)$")))
+		if(instruccion.matches("mul"))
+			if(!(operando.matches("^(= \\d + | * \\d + | \\d + )$")))
 				return true;
-		}
-		if(instruccion == "read"){
-			if(!(operando.matches("^(=\\d+|*\\d+|\\d+)$")))
+		if(instruccion.matches("div"))
+			if(!(operando.matches("^(= \\d + | * \\d + | \\d + )$")))
 				return true;
-		}
-		if(instruccion == "write")
-			if(!(operando.matches("^(=\\d+|*\\d+|\\d+)$")))
+		if(instruccion.matches("read"))
+			if(!(operando.matches("^( * \\d + | \\d + )$")))
 				return true;
-		if(instruccion == "jump")
-			if(operando.matches("^(\\D\\w+)$"))
-					return true;
-		if(instruccion == "jzero")
-			if(operando.matches("^(\\D\\w+)$"))
+		if(instruccion.matches("write"))
+			if(!(operando.matches("^(= \\d + | * \\d + | \\d + )$")))
 				return true;
-		if(instruccion == "jgtz")
-			if(operando.matches("^(\\D\\w+)$"))
+		if(instruccion.matches("jump"))
+			if(!(operando.matches("^(\\D . *)$")))
 				return true;
-		if(instruccion == "halt")
+		if(instruccion.matches("jzero"))
+			if(!(operando.matches("^(\\D . *)$")))
+				return true;
+		if(instruccion.matches("jgtz"))
+			if(!(operando.matches("^(\\D . *)$")))
+				return true;
+		if(instruccion.matches("halt"))
 			return true;
 		return false;
+	}
+	
+	public String toString(){
+		String salida = "";
+		if(etiqueta != null)
+			salida = salida + etiqueta+": ";
+		else
+			salida = salida + "          ";
+		salida = salida + instruccion +" ";
+		if(operando != null)
+			salida = salida+ operando;
+		salida = salida + "\n";
+		return salida;
 	}
 }

@@ -22,6 +22,7 @@ public class ProgramMemory{
 	 */
 	public ProgramMemory(File program){
 		ip =0;
+		registros = new ArrayList<Instruccion>();
 		try{
 			FileInputStream istream = new FileInputStream(program);
 			 
@@ -30,49 +31,66 @@ public class ProgramMemory{
 		 
 			String line = null;
 			while ((line = bufferreader.readLine()) != null) {
+				if(line.isEmpty())
+					continue;
 				if (line.charAt(0) == '#')
 					continue;
 				Instruccion nuevainstruccion;
 				//TODO: confirmar el formateo de las etiquetas.
 				String[] division = line.split("\\s+");
+				if(division.length == 2){
+					if (!division[0].isEmpty() && !division[1].isEmpty()){
+						String etiqueta = division[0].substring(0, division[0].length()-1);
+						String instruccion = division[1];
+						nuevainstruccion = new Instruccion(instruccion.toLowerCase(), null, etiqueta.toLowerCase());
+					}
+					else{
+						String instruccion = division[1];
+						nuevainstruccion = new Instruccion(instruccion.toLowerCase());
+					}
+					registros.add(nuevainstruccion);
+				}
 				if(division.length == 3){
-					//hay etiqueta, le qitamos los ":" del final.
-					String etiqueta = division[0].substring(0, division[0].length()-1);
-					String instruccion = division[1];
-					String operando = division[2];
-					nuevainstruccion = new Instruccion(instruccion.toLowerCase(), operando.toLowerCase(), etiqueta.toLowerCase());
+					if(!division[0].isEmpty() && !division[1].isEmpty() && !division[2].isEmpty()){
+						//hay etiqueta, le qitamos los ":" del final.
+						String etiqueta = division[0].substring(0, division[0].length()-1);
+						String instruccion = division[1];
+						String operando = division[2];
+						nuevainstruccion = new Instruccion(instruccion.toLowerCase(), operando.toLowerCase(), etiqueta.toLowerCase());
+					}
+					else if(division[0].isEmpty() && !division[1].isEmpty() && !division[2].isEmpty()){
+						String instruccion = division[1];
+						String operando = division[2];
+						nuevainstruccion = new Instruccion(instruccion.toLowerCase(), operando.toLowerCase());
+					}
+					else{
+						nuevainstruccion = new Instruccion(division[1].toLowerCase());
+					}
+					registros.add(nuevainstruccion);
 				}
-				else if(division.length == 2){
-					String instruccion = division[0];
-					String operando = division[1];
-					nuevainstruccion = new Instruccion(instruccion.toLowerCase(), operando.toLowerCase());
-				}
-				else{
-					String instruccion = division[0];
-					nuevainstruccion = new Instruccion(instruccion.toLowerCase());
-				}
-				registros.add(nuevainstruccion);
+				
 			}
 			bufferreader.close();
 		}
 		catch(FileNotFoundException e){
 			System.out.println("Error en el fichero: no se encuentra " + e);
+			System.exit(1);
 		}
 		catch(IOException e){
 			System.out.println("Error en el fichero: error de entrada/salida " + e);
+			System.exit(1);
 		}
 		catch(IllegalArgumentException e){
 			System.out.println("Error en el fichero: error de entrada/salida " + e);
+			System.exit(1);
 		}
 	}
 	
 	public Instruccion getInstrucccion (int i){
 		return registros.get(i);
 	}
-	public int setIp(int i){
-		int temp = ip;
+	public void setIp(int i){
 		ip = i;
-		return temp;
 	}
 	public int getIp(){
 		return ip;
@@ -89,13 +107,25 @@ public class ProgramMemory{
 	 * @param etiqueta
 	 * @return
 	 */
-	public boolean jumto(String etiqueta){
+	public boolean jumpto(String etiqueta){
 		for(int i =0; i < registros.size(); i++){
-			if(registros.get(i).getEtiqueta() == etiqueta.toLowerCase()){
-				ip = i;
-				return true;
-			}
+			if(registros.get(i).getEtiqueta() != null)
+				if(registros.get(i).getEtiqueta().matches(etiqueta)){
+					ip = i;
+					return true;
+				}
 		}
 		return false;
+	}
+	
+	public String toString(){
+		String salida = new String();
+		for(int i=0; i< registros.size(); i++){
+			if(ip-1 == i)
+				salida = salida + "> ";
+			salida = salida + registros.get(i);
+		}
+		salida = salida+"\n";
+		return salida;
 	}
 }

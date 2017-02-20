@@ -10,16 +10,25 @@ public class DataMemory {
 	ArrayList<Integer> registros;
 	
 	public DataMemory (){
-		registros = new ArrayList<Integer>(20);
+		registros = new ArrayList<Integer>();
+		registros.add(0);
+		registros.add(0);
+		registros.add(0);
+		registros.add(0);
+		registros.add(0);
+		registros.add(0);
+		registros.add(0);
+		registros.add(0);
+		registros.add(0);
+		registros.add(0);
+		registros.add(0);
 	}
 	
 	public int getData(int i){
 		return registros.get(i);
 	}
-	public int setData(int index, int data){
-		int temp = registros.get(index);
+	public void setData(int index, int data){
 		registros.set(index, data);
-		return temp;
 	}
 	
 	/**
@@ -61,18 +70,13 @@ public class DataMemory {
 		this.setData(register, this.getData(0));
 	}
 	public void storeData(String register){
-		//si el operando empieza por = entonces es un valor inmediato
-		if(register.startsWith("=")){
-			this.storeData(Integer.parseInt(register.substring(1)));
-			return;
-		}
 		//si empieza por * es direccionamiento indirecto
 		if(register.startsWith("*")){
 			int indirectRegister = this.getData(Integer.parseInt(register.substring(1)));
 			this.storeData(this.getData(indirectRegister));
 			return;
 		}
-		// si no cumple lo anterior se asume que es direccionamiento directo
+		// si no cumple lo anterior se asume que es directamente al registro
 		this.storeData(this.getData(Integer.parseInt(register)));		
 	}
 	/**
@@ -106,17 +110,28 @@ public class DataMemory {
 	 * @param data
 	 * @return
 	 */
-	public int setData(String index, int data){
+	public void setData(String index, int data){
 		//si el operando empieza por = entonces es un valor inmediato
 		if(index.startsWith("=")){
-			return this.setData(Integer.parseInt(index.substring(1)), data);
+			this.setData(Integer.parseInt(index.substring(1)), data);
+			return;
 		}
 		//si empieza por * es direccionamiento indirecto
 		if(index.startsWith("*")){
 			int register = this.getData(Integer.parseInt(index.substring(1)));
-			return this.setData(this.getData(register), data);
+			this.setData(this.getData(register), data);
+			return;
 		}
 		// si no cumple lo anterior se asume que es direccionamiento directo
-		return this.setData(this.getData(Integer.parseInt(index)), data);
+		this.setData(this.getData(Integer.parseInt(index)), data);
+	}
+	
+	public String toString(){
+		String salida = new String();
+		salida = salida + "Acc: " + registros.get(0)+"\n";
+		for(int i =1; i<registros.size();i++)
+			salida = salida + "R" + i +": " + registros.get(i)+"\n";
+		salida = salida +"\n";
+		return salida;
 	}
 }

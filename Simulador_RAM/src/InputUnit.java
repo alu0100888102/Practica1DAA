@@ -33,6 +33,7 @@ public class InputUnit {
 		}
 		catch(FileNotFoundException e){
 			System.out.println("Error en el fichero: no se encuentra " + e);
+			System.exit(1);
 		}
 	}
 	public ArrayList<Integer> getCinta(){
@@ -41,13 +42,26 @@ public class InputUnit {
 	public int getIndex(){
 		return index;
 	}
-	public int setIndex(int i){
-		int temp = index;
+	public void setIndex(int i){
 		index = i;
-		return temp;
 	}
 	
 	public int getNext(){
-		return cinta.get(index);
+		index++;
+		return cinta.get(index-1);
+	}
+	
+	public String toString(){
+		String salida = new String();
+		for(int i = 0; i< cinta.size(); i++){
+			if (index-1 == i)
+				salida = salida + ">";
+			salida = salida+cinta.get(i);
+			if (index-1 == i)
+				salida = salida + "<";
+			salida = salida + " ";
+		}
+		salida = salida + "\n";
+		return salida;
 	}
 }
