@@ -92,7 +92,7 @@ public class Alu {
 		//si el operando empieza por = entonces es un valor inmediato
 		if(operando.startsWith("=")){
 			int op = Integer.parseInt(operando.substring(1));
-			memoriaDatos.loadData(op - memoriaDatos.getAcc());
+			memoriaDatos.loadData(memoriaDatos.getAcc()-op);
 			return;
 		}
 		//en otro caso, es un registro
@@ -200,6 +200,15 @@ public class Alu {
 		Instruccion siguienteInstruccion = memoriaInstrucciones.nextInstruccion();
 		while(siguienteInstruccion != null){
 			actionCounter++;
+			if(debug == 1){
+				out.println("Instruccion numero " +  actionCounter);
+				out.println("IP = "+(memoriaInstrucciones.getIp()));
+				out.println("Memoria de programas:\n"+ memoriaInstrucciones);
+				out.println("Memoria de datos:\n"+ memoriaDatos);
+				out.println("Cinta de entrada:\n" + cintaEntrada);
+				out.println("Cinta de salida:\n" +  cintaSalida);
+			}
+			
 			if (siguienteInstruccion.getInstruccion().matches("load"))
 				this.load(siguienteInstruccion.getOperando());
 			if (siguienteInstruccion.getInstruccion().matches("store"))
@@ -227,15 +236,6 @@ public class Alu {
 				this.halt();
 			}
 			
-			if(debug == 1){
-				out.println("Instruccion numero " +  actionCounter);
-				out.println("IP = "+(memoriaInstrucciones.getIp()-1));
-				out.println("Memoria de programas:\n"+ memoriaInstrucciones);
-				out.println("Memoria de datos:\n"+ memoriaDatos);
-				out.println("Cinta de entrada:\n" + cintaEntrada);
-				out.println("Cinta de salida:\n" +  cintaSalida);
-			}
-			
 			siguienteInstruccion = memoriaInstrucciones.nextInstruccion();
 		}
 		out.println("El numero de acciones ejecutadas es: " +  actionCounter);
@@ -244,10 +244,10 @@ public class Alu {
 	
 	//args: 0= programa, 1= entrada, 2= salida, 3= debug
 	public static void main(String args[]){
-		File ficheroPrograma = new File("programas/test1.ram");
-		File ficheroEntrada = new File("programas/input_tape.in");
-		File ficheroSalida = new File("programas/output_tape.out");
-		int debugMode = Integer.parseUnsignedInt("1");
+		File ficheroPrograma = new File(args[0]);
+		File ficheroEntrada = new File(args[1]);
+		File ficheroSalida = new File(args[2]);
+		int debugMode = Integer.parseUnsignedInt(args[3]);
 		
 		Alu maquinaRam = new Alu(ficheroPrograma, ficheroEntrada, ficheroSalida);
 		maquinaRam.run(debugMode);

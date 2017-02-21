@@ -72,10 +72,10 @@ public class Instruccion {
 			if(!(operando.matches("^(= \\d + | * \\d + | \\d + )$")))
 				return true;
 		if(instruccion.matches("read"))
-			if(!(operando.matches("^( * \\d + | \\d + )$")))
+			if(!(operando.matches("^( * \\d + | \\d + )$"))&& !(operando.matches("0")))
 				return true;
 		if(instruccion.matches("write"))
-			if(!(operando.matches("^(= \\d + | * \\d + | \\d + )$")))
+			if(!(operando.matches("^(= \\d + | * \\d + | \\d + )$")) && !(operando.matches("0")))
 				return true;
 		if(instruccion.matches("jump"))
 			if(!(operando.matches("^(\\D . *)$")))

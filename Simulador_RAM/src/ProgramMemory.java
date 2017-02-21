@@ -21,6 +21,7 @@ public class ProgramMemory{
 	 * @param program
 	 */
 	public ProgramMemory(File program){
+		int nlinea=0;
 		ip =0;
 		registros = new ArrayList<Instruccion>();
 		try{
@@ -36,7 +37,6 @@ public class ProgramMemory{
 				if (line.charAt(0) == '#')
 					continue;
 				Instruccion nuevainstruccion;
-				//TODO: confirmar el formateo de las etiquetas.
 				String[] division = line.split("\\s+");
 				if(division.length == 2){
 					if (!division[0].isEmpty() && !division[1].isEmpty()){
@@ -68,7 +68,7 @@ public class ProgramMemory{
 					}
 					registros.add(nuevainstruccion);
 				}
-				
+				nlinea++;
 			}
 			bufferreader.close();
 		}
@@ -81,7 +81,7 @@ public class ProgramMemory{
 			System.exit(1);
 		}
 		catch(IllegalArgumentException e){
-			System.out.println("Error en el fichero: error de entrada/salida " + e);
+			System.out.println("Linea "+nlinea+" Error en el fichero: error de entrada/salida " + e);
 			System.exit(1);
 		}
 	}

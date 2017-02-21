@@ -1,0 +1,9 @@
+				load =1
+				add =2
+				store 1
+				sub =1
+				store 2
+				mul =3
+				store 3
+				div =6
+				store 4

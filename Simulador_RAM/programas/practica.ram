@@ -1,0 +1,48 @@
+#Desarrollar un programa que pueda ejecutarse en el anterior simulador RAM. En
+#concreto, el programa debe calcular logn x, donde el valor de n > 1 y x > 0 deben
+#venir especificados en la cinta de entrada. El resultado del c´alculo (s´olo la parte
+#entera) deber´a almacenarse en la cinta de salida. Si x <= 0 o n <= 1, en la cinta
+#de salida se escribir´a un -1.
+
+#para averiguar el logaritmo, multiplicaremos n por si mismo contando el numero de veces hasta que el numero que obtengamos sea mayor que X
+#esto quiere decir que en la anterior iteración se llegó a la potencia de n mas cercana a X por debajo.
+#El resultado final del logaritmo es entonces el numero de iteraciones actual menos una.
+#En caso de que demos justo con X, se imprime la iteracion actual
+
+			read 1
+			load 1
+			sub =1
+			jzero finerror
+			read 2
+			load 2
+			jzero finerror
+			
+#ahora tenemos X en R1 y N en R2
+			
+			load =1
+			store 3
+			load 2
+			store 4
+			
+#utilizaremos R3 de iterador y R4 para guardar los resultados
+
+bucle:		load 3
+			add =1
+			store 3
+			load 4
+			mul 2
+			store 4
+			sub 1
+			jzero encontrada
+			jgtz bucle
+			load 3
+			sub =1
+			store 3
+			write 3
+			halt
+
+encontrada:	write 3
+			halt
+
+finerror:	write =-1
+			halt

@@ -63,8 +63,6 @@ public class DataMemory {
 	 * @param register
 	 */
 	public void storeData(int register){
-		if((register== 0))
-			throw new IllegalArgumentException("ERROR DE REGISTRO: No se puede cargar al acumulador");
 		if((register >= registros.size()))
 			throw new IllegalArgumentException("ERROR DE REGISTRO: No existe el registro indicado");
 		this.setData(register, this.getData(0));
@@ -72,12 +70,11 @@ public class DataMemory {
 	public void storeData(String register){
 		//si empieza por * es direccionamiento indirecto
 		if(register.startsWith("*")){
-			int indirectRegister = this.getData(Integer.parseInt(register.substring(1)));
-			this.storeData(this.getData(indirectRegister));
+			this.storeData(this.getData(Integer.parseInt(register.substring(1))));
 			return;
 		}
 		// si no cumple lo anterior se asume que es directamente al registro
-		this.storeData(this.getData(Integer.parseInt(register)));		
+		this.storeData(Integer.parseInt(register));		
 	}
 	/**
 	 * devuelve el valor del acumulador (R0)
@@ -102,7 +99,7 @@ public class DataMemory {
 			return this.getData(this.getData(register));
 		}
 		// si no cumple lo anterior se asume que es direccionamiento directo
-		return this.getData(this.getData(Integer.parseInt(index)));				
+		return this.getData(Integer.parseInt(index));				
 	}
 	/**
 	 * introduce un dato utilizando un operando como indice
@@ -128,9 +125,9 @@ public class DataMemory {
 	
 	public String toString(){
 		String salida = new String();
-		salida = salida + "Acc: " + registros.get(0)+"\n";
+		salida = salida + "Acc: " + this.getAcc()+"\n";
 		for(int i =1; i<registros.size();i++)
-			salida = salida + "R" + i +": " + registros.get(i)+"\n";
+			salida = salida + "R" + i +": " + this.getData(i)+"\n";
 		salida = salida +"\n";
 		return salida;
 	}
