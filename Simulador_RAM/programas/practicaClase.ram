@@ -1,0 +1,32 @@
+#Programa que recibe un vector de numeros y devuelve cuantos son multiplos de 6
+
+#en el registro 1 guardamos el 6
+#utilizamos el registro 3 de contador
+			load =6
+			store 1
+			load =0
+			store 3
+
+#En cada iteracion del bucle, se guarda la entrada en R2
+#Se divide (se guarda solo la parte entera) y se multiplica por 6
+#de esta manera si la division no es exacta el resultado sera menor que el original
+#luego se le resta el origina, y si da 0 entonces es que la division entre 6 es exacta y por tanto
+#es un multiplo de 6. El bucle se repite hasta que la entrada es 0
+
+bucle:		read 2
+			load 2
+			jzero fin
+			div 1
+			mul 1
+			sub 2
+			jzero found
+			jump bucle
+
+found:		load 3
+			add =1
+			store 3
+			jump bucle
+
+fin:		write 3
+			halt
+			

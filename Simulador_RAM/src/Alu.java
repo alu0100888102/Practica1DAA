@@ -124,12 +124,12 @@ public class Alu {
 		//si el operando empieza por = entonces es un valor inmediato
 		if(operando.startsWith("=")){
 			int op = Integer.parseInt(operando.substring(1));
-			memoriaDatos.loadData(op / memoriaDatos.getAcc());
+			memoriaDatos.loadData(memoriaDatos.getAcc() / op);
 			return;
 		}
 		//en otro caso, es un registro
 		int op = memoriaDatos.getData(operando);
-		memoriaDatos.loadData(op / memoriaDatos.getAcc());
+		memoriaDatos.loadData(memoriaDatos.getAcc() / op);
 		return;
 	}
 	/**
